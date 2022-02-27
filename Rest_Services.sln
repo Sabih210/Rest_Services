@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPE_Rest_Service", "Rest_Services\TPE_Rest_Service.csproj", "{BDAC48E1-4F7A-4456-854F-2820FE524B75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDAC48E1-4F7A-4456-854F-2820FE524B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDAC48E1-4F7A-4456-854F-2820FE524B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDAC48E1-4F7A-4456-854F-2820FE524B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDAC48E1-4F7A-4456-854F-2820FE524B75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19949A60-6DC2-48CC-8DCC-2C662E4AE5F6}
+	EndGlobalSection
+	
+EndGlobal
