@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 
-namespace PITB_Service.Models
+namespace ChallengeSpekit.Models
 {
 
     public class DocumentRequest

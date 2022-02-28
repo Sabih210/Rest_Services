@@ -55,7 +55,7 @@ using MySql.Data.MySqlClient;
         public int execute_dml(string _cmd)
         {
             int _isInserted = 0;
-            using (MySqlConnection con = new MySqlConnection(constr))
+            using (MySqlConnection con = new MySqlConnection("server=127.0.0.1;user id=DESKTOP-VV4QA8G;password=root;port=3306;database=doc_store_management;"))
             {
                 using (MySqlCommand cmd = new MySqlCommand(_cmd))
                 {

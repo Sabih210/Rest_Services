@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
-using PITB_Service.Models;
-using Microsoft.Extensions.Configuration;
+using ChallengeSpekit.Models;
+
 
 namespace ChallengeSpekit.Controllers
 {
@@ -51,7 +51,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
             string l_Qry_Chk_API = string.Empty;
             FolderResponse _res = new FolderResponse();
 
-            if (!string.IsNullOrEmpty(_folderId))
+            if (!string.IsNullOrEmpty(_folderId) && _folderId != "0")
                 l_Qry_Chk_API = @"SELECT * FROM DSM_FOLDER F WHERE FOLDERID='{0}' and IS_DELETED='0'";
             else
                 l_Qry_Chk_API = @"SELECT * FROM DSM_FOLDER F WHERE IS_DELETED='0'";
@@ -74,8 +74,8 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
         }
 
         [HttpPost]
-        [Route("PerformActionOnFolder/{_folderRquest}", Name = "PerformActionOnFolder")]
-        public string PerformActionOnFolder(FolderRequest _folderRquest)
+        [Route("PerformActionOnFolder", Name = "PerformActionOnFolder")]
+        public string PerformActionOnFolder([FromBody] FolderRequest _folderRquest)
         {
             int _reslt = 0;
             string l_Qry_Chk_API = string.Empty;
@@ -181,7 +181,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
             string l_Qry_Chk_API = string.Empty;
             DocumentResponse _res = new DocumentResponse();
 
-            if (!string.IsNullOrEmpty(_documentId))
+            if (!string.IsNullOrEmpty(_documentId) && _documentId != "0")
                 l_Qry_Chk_API = @"SELECT * FROM DSM_DOCUMENT D WHERE DOCUMENTID ='{0}' and IS_DELETED=0";
             else
                 l_Qry_Chk_API = @"SELECT * FROM DSM_DOCUMENT D WHERE IS_DELETED='0'";
@@ -205,8 +205,8 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
         }
 
         [HttpPost]
-        [Route("PerformActionOnDocument/{_documentRequest}", Name = "PerformActionOnDocument")]
-        public string PerformActionOnDocument(DocumentRequest _documentRequest)
+        [Route("PerformActionOnDocument", Name = "PerformActionOnDocument")]
+        public string PerformActionOnDocument([FromBody] DocumentRequest _documentRequest)
         {
             int _reslt = 0;
             string l_Qry_Chk_API = string.Empty;
@@ -316,7 +316,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
             string l_Qry_Chk_API = string.Empty;
             TopicResponse _res = new TopicResponse();
 
-            if (!string.IsNullOrEmpty(_topicId))
+            if (!string.IsNullOrEmpty(_topicId) && _topicId != "0")
                 l_Qry_Chk_API = @"SELECT * FROM DSM_TOPIC T WHERE TOPICID ='{0}' and IS_DELETED=0";
             else
                 l_Qry_Chk_API = @"SELECT * FROM DSM_TOPIC T WHERE IS_DELETED='0'";
@@ -340,7 +340,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
         }
 
         [HttpPost]
-        [Route("PerformActionOnTopic/{_topicRequest}", Name = "PerformActionOnTopic")]
+        [Route("PerformActionOnTopic", Name = "PerformActionOnTopic")]
         public string PerformActionOnTopic(TopicRequest _topicRequest)
         {
             int _reslt = 0;
