@@ -14,7 +14,7 @@ namespace ChallengeSpekit.Controllers
 
         #region Common 
        Common.Common _commonFunctions = new Common.Common();
-        BB_DAO _bbDao = new BB_DAO();
+        DAO _bbDao = new DAO();
         #endregion
 
 

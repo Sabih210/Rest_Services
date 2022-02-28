@@ -9,12 +9,12 @@ namespace ChallengeSpekit.Common
 {
     public class Common
     {
-        BB_DAO _bbDao = new BB_DAO();
+        DAO _bbDao = new DAO();
         public int GetNextId(string _columnName,string _tableName) {
             DataTable dt = new DataTable();
-             BB_DAO _bbDao = new BB_DAO();
+             DAO _bbDao = new DAO();
             int _id = 0;
-            string _riderId = string.Empty;
+           
             dt = _bbDao.execute_select(string.Format("SELECT "+_columnName+" ID FROM "+_tableName+""));
             if (dt.Rows.Count > 0)
             {
@@ -34,7 +34,7 @@ namespace ChallengeSpekit.Common
             DataTable dt = new DataTable();
 
             bool _alreadyExists = false;
-            string _riderId = string.Empty;
+          
             dt = _bbDao.execute_select(string.Format("SELECT *  FROM " + _tableName + " WHERE " + _columnName + "='"+ _data+"' and is_deleted=0"));
             if (dt.Rows.Count > 0)
             {
@@ -50,7 +50,7 @@ namespace ChallengeSpekit.Common
             DataTable dt = new DataTable();
 
             bool _alreadyExists = false;
-            string _riderId = string.Empty;
+        
             dt = _bbDao.execute_select(string.Format("SELECT *  FROM " + _tableName + " WHERE " + _columnName + "='" + _documentName + "' and folderid='"+ _folderId+ "'  and is_deleted=0"));
             if (dt.Rows.Count > 0)
             {
@@ -65,7 +65,7 @@ namespace ChallengeSpekit.Common
             DataTable dt = new DataTable();
 
             bool _alreadyExists = false;
-            string _riderId = string.Empty;
+         
             dt = _bbDao.execute_select(string.Format("SELECT *  FROM " + _tableName + " WHERE " + _columnName + "='" + _topicId + "' and folderid='" + _folderId + "' and documentid='" + _documentId + "'  and is_deleted=0"));
             if (dt.Rows.Count > 0)
             {

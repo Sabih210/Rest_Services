@@ -12,20 +12,11 @@ using MySql.Data.MySqlClient;
 
 
 
-    public class BB_DAO
+    public class DAO
     {
 
-    //public MySqlConnection Connection { get; }
-
-    //public BB_DAO(string connectionString)
-    //{
-    //    Connection = new MySqlConnection(connectionString);
-    //}
-
-
-
-
-    string constr = "";
+   
+    string constr = "server=127.0.0.1;user id=DESKTOP-VV4QA8G;password=root;port=3306;database=doc_store_management;";
    
 
 
@@ -33,7 +24,7 @@ using MySql.Data.MySqlClient;
         {
             DataTable dt = new DataTable();
 
-        using (MySqlConnection con = new MySqlConnection("server=127.0.0.1;user id=DESKTOP-VV4QA8G;password=root;port=3306;database=doc_store_management;"))
+        using (MySqlConnection con = new MySqlConnection(constr))
         {
             using (MySqlCommand cmd = new MySqlCommand(_cmd))
             {
@@ -55,7 +46,7 @@ using MySql.Data.MySqlClient;
         public int execute_dml(string _cmd)
         {
             int _isInserted = 0;
-            using (MySqlConnection con = new MySqlConnection("server=127.0.0.1;user id=DESKTOP-VV4QA8G;password=root;port=3306;database=doc_store_management;"))
+            using (MySqlConnection con = new MySqlConnection(constr))
             {
                 using (MySqlCommand cmd = new MySqlCommand(_cmd))
                 {
