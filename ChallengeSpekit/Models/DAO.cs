@@ -28,7 +28,7 @@ using MySql.Data.MySqlClient;
         {
             using (MySqlCommand cmd = new MySqlCommand(_cmd))
             {
-            //    string constr = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
+        
                 using (MySqlDataAdapter sda = new MySqlDataAdapter())
                 {
                     cmd.Connection = con;

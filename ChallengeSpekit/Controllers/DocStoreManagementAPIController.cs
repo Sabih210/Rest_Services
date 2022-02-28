@@ -448,29 +448,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
 
         #endregion
 
-        [HttpGet]
-        [Route("_GetDate/{_topic}", Name = "_GetDate")]
-        public DocStoreManagementResponse _GetDate(string _topic)
-        {
-            DataTable dSet_Docs = null;
-            DocStoreManagementResponse _res = new DocStoreManagementResponse();
-            string l_Qry_Chk_API = @"SELECT D.DOCUMENTID,D.DOCUMENT_NAME FROM DSM_FOLDER F INNER JOIN DSM_DOCUMENT D ON F.FOLDERID=D.FOLDERID
-        INNER JOIN DSM_TOPIC T ON D.DOCUMENTID=T.DOCUMENTID
-        WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%')";
-            dSet_Docs = _bbDao.execute_select(string.Format(l_Qry_Chk_API, _topic));
-            _res.ResponseCode = "0";
-            List<string> _docs = new List<string>();
-            foreach (DataRow _docName in dSet_Docs.Rows)
-            {
-
-                _docs.Add(_docName["DOCUMENT_NAME"].ToString());
-            }
-
-            _res.Document = _docs;
-            return _res;
-
-            //  return System.DateTime.Now.ToString();
-        }
+      
 
 
     }
