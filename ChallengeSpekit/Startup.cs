@@ -49,6 +49,9 @@ namespace ChallengeSpekit
             {
                 endpoints.MapControllers();
             });
+
+            AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);
+            AppDomain.CurrentDomain.SetData("WebRootPath", env.WebRootPath);
         }
        
     }

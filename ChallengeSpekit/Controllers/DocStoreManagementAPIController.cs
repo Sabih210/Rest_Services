@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using ChallengeSpekit.Models;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ChallengeSpekit.Controllers
 {
@@ -13,7 +16,7 @@ namespace ChallengeSpekit.Controllers
     {
 
         #region Common 
-       Common.Common _commonFunctions = new Common.Common();
+        Common.Common _commonFunctions = new Common.Common();
         DAO _bbDao = new DAO();
         #endregion
 
@@ -24,19 +27,20 @@ namespace ChallengeSpekit.Controllers
         {
             DataTable dSet_Docs = null;
             DocStoreManagementResponse _res = new DocStoreManagementResponse();
-           
+
             string l_Qry_Chk_API = @"SELECT D.DOCUMENTID,D.DOCUMENT_NAME FROM DSM_FOLDER F INNER JOIN DSM_DOCUMENT D ON F.FOLDERID=D.FOLDERID
 INNER JOIN DSM_TOPIC T ON D.DOCUMENTID=T.DOCUMENTID
 WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 AND T.IS_DELETED=0";
-           
+
             dSet_Docs = _bbDao.execute_select(string.Format(l_Qry_Chk_API, _topic));
-            
+
             _res.ResponseCode = "0";
-            
+
             List<string> _docs = new List<string>();
-            
-            
-            foreach (DataRow _docName in dSet_Docs.Rows) {
+
+
+            foreach (DataRow _docName in dSet_Docs.Rows)
+            {
 
                 _docs.Add(_docName["DOCUMENT_NAME"].ToString());
             }
@@ -46,6 +50,72 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
 
         }
 
+        #region DML
+
+        private IHostingEnvironment _environment;
+
+        public DocStoreManagementAPIController(IHostingEnvironment environment)
+        {
+            _environment = environment;
+        }
+
+        [HttpPost]
+        [Route("uploadFile/{_folderId}", Name = "uploadFile")]
+        public string uploadFile(string _folderId)
+        {
+            string reslt = string.Empty;
+            string l_Qry_INS_Doc = string.Empty;
+            string l_Qry_INS_Topic = string.Empty;
+            var files = HttpContext.Request.Form.Files;
+            int _reslt = 0;
+
+
+
+
+            foreach (var singlefile in files)
+            {
+
+                if (singlefile.Length > 0)
+                {
+                    bool _alreadyExists = _commonFunctions.CheckDocumentAlreadyExists("DOCUMENT_FILE_NAME", "DSM_DOCUMENT", singlefile.FileName, _folderId);
+
+                    if (!_alreadyExists)
+                    {
+                        string webRootPath = _environment.ContentRootPath;
+                        string uploads = webRootPath + "\\UploadedDocuments\\";
+
+                        //insert data in topic , document against folder
+                        int _documentid = _commonFunctions.GetNextId("DOCUMENTID", "DSM_DOCUMENT");
+                        int _topicid = _commonFunctions.GetNextId("TOPICID", "DSM_TOPIC");
+
+                        l_Qry_INS_Doc = @"insert into DSM_DOCUMENT (DOCUMENTID, FOLDERID, DOCUMENT_NAME,DOCUMENT_FILE_NAME, CREATED_ON, CREATED_BY, UPDATED_ON, UPDATED_BY, IS_DELETED)
+        values (" + _documentid + "," + _folderId + ", '" + singlefile.Name + "','" + singlefile.FileName + "', SYSDATE(), 'API', SYSDATE(), 'API', 0);";
+
+                        l_Qry_INS_Topic = @"insert into DSM_TOPIC (TOPICID, FOLDERID, DOCUMENTID, TOPIC, CREATED_ON, CREATED_BY, UPDATED_ON, UPDATED_BY, IS_DELETED)
+        values (" + _topicid + "," + _folderId + ", " + _documentid + ", '" + singlefile.Name + "', sysdate(), 'API', sysdate(), 'API', 0);";
+
+                        _reslt = _bbDao.execute_dml(l_Qry_INS_Doc, l_Qry_INS_Topic);
+
+                        if (_reslt == 1)
+                        {
+                            string FileName = singlefile.FileName; // Give file name
+                            using (var fileStream = new FileStream(uploads + FileName, FileMode.Create))
+                            {
+                                singlefile.CopyTo(fileStream);
+                            }
+                            reslt = "Success";
+                        }
+                    }
+                    else
+                    {
+                        reslt = "Document already exists with same folder.";
+                    }
+                }
+            }
+            return reslt;
+            //TODO: Save file description and image URL etc to database.
+        }
+        #endregion
 
 
         #region Folder
@@ -448,7 +518,7 @@ WHERE UPPER(T.TOPIC) LIKE UPPER('%{0}%') AND F.IS_DELETED=0 AND D.IS_DELETED=0 A
 
         #endregion
 
-      
+
 
 
     }
